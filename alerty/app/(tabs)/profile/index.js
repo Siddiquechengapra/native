@@ -1,14 +1,16 @@
 import { Image, StyleSheet, Text, View, Dimensions } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import { LineChart } from "react-native-chart-kit";
 import { Constants } from "../../Constants";
+import { useFocusEffect } from '@react-navigation/native';
 
 const index = () => {
   const [completedTasks, setCompletedTasks] = useState(0);
   const [pendingTasks, setPendingTasks] = useState(0);
-
+console.log("pending tasks",pendingTasks)
   const fetchTaskData = async () => {
+    console.log("fetching from info")
     try {
       const response = await axios.get(`${Constants.url}/todos/count`);
       const { totalCompletedTodos, totalPendingTodos } = response.data;
@@ -18,9 +20,11 @@ const index = () => {
       console.log("error", error);
     }
   };
-  useEffect(() => {
-    fetchTaskData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchTaskData();
+    }, [])
+  );
   console.log("comp", completedTasks);
   console.log("pending", pendingTasks);
   return (
@@ -29,7 +33,7 @@ const index = () => {
         <Image
           style={{ width: 60, height: 60, borderRadius: 30 }}
           source={{
-            uri: "https://lh3.googleusercontent.com/ogw/ANLem4Zmk7fohWyH7kB6YArqFy0WMfXnFtuX3PX3LSBf=s64-c-mo",
+            uri: "https://pngtree.com/freepng/user-icon-design--essential-icon-vector-design_4157562.html",
           }}
         />
         <View>
