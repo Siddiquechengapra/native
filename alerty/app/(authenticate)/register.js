@@ -3,6 +3,7 @@ import { View, Text, SafeAreaView, KeyboardAvoidingView, TextInput, Pressable, A
 import { AntDesign, MaterialIcons } from '@expo/vector-icons'
 import { useRouter } from "expo-router";
 import axios from "axios";
+import { Constants } from '../Constants';
 export default function register() {
 
     const [email, setEmail] = useState("")
@@ -19,15 +20,15 @@ export default function register() {
         }
         console.log('User object before sending:', user);
 
-        axios.post("http://192.168.1.3:3000/register",user).then((response) => {
+        axios.post(`${Constants.url}/register`,user).then((response) => {
             console.log(response);
             Alert.alert("Registration successfull","You have been registered succesfully");
             setEmail("");
             setPassword("");
             setName("");
         }).catch((error) => {
-            Alert.alert("Registration failed","an error ocurred during registration");
-            console.log("error",error)
+            Alert.alert("Registration failed",error.message);
+            console.log("errrrrr",JSON.stringify(error))
         })
     }
     return (
